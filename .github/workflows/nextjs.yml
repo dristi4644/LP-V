@@ -1,0 +1,56 @@
+#include <iostream>
+#include<vector>
+#include<limits.h>
+#include<omp.h>
+using namespace std;
+
+void minP(const vector<int>&arr)
+{
+    int min=INT_MAX;
+    #pragma omp parallel reduction(min:min_val)
+    for(int i=0;i<arr.size();i++)
+    {
+        if(arr[i]<min)
+        {
+          min=arr[i];  
+        }
+    }
+    cout<<min<<endl;
+}
+void maxP(const vector<int>&arr)
+{
+    int max=INT_MIN;
+    #pragma omp parallel reduction(max:max_val)
+    for(int i=0;i<arr.size();i++)
+    {
+        if(arr[i]>max)
+        {
+            max=arr[i];
+        }
+    }
+    cout<<max<<endl;
+}
+int sumP(const vector<int>&arr)
+{
+    int sum=0;
+    for(int i=0;i<arr.size();i++)
+    {
+        sum += arr[i];
+    }
+    return sum;
+}
+void avgP(const vector<int>&arr)
+{
+    int avg = sumP(arr);
+    cout<<(double)avg/arr.size()<<endl;
+}
+int main() {
+    // Write C++ code here
+    vector<int>arr={10,2,4,31,5};
+    minP(arr);
+    maxP(arr);
+    int s = sumP(arr);
+    cout<<s<<endl;
+    avgP(arr);
+    return 0;
+}
